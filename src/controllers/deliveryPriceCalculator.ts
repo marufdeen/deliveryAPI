@@ -18,22 +18,24 @@ const routes : any = {
   
   function deliveryPriceCalculator (pickUpAddress : String, dropOffAddress : String, deliveryMethod : String)  {
   
-    let pickUpRoute = figureRoute(pickUpAddress);
-    let dropOffRoute = figureRoute(dropOffAddress);
-  
     function figureRoute(address: String) {
       let routeValue : any ;
+      let landMark : any;
       Object.keys(routes).reduce((acc: any, key) => {
         const add = address.split(" ").map((a) => a.toUpperCase());
         add.map((ad) => {
           if (routes[key].includes(ad) ) {
             if (routeValue === undefined) routeValue = key.toUpperCase();
           }
+          if (routes[key].includes(ad) ) landMark = ad
         });
       }, {});
   
-      return routeValue;
+      return {routeValue, landMark};
     }
+  
+    let pickUpRoute = figureRoute(pickUpAddress);
+    let dropOffRoute = figureRoute(dropOffAddress);
   
     function figurePrice(pickup: String, dropoff: String) {
       const price  = priceTag.find(
@@ -43,11 +45,9 @@ const routes : any = {
       if (deliveryMethod === 'express') return price*2;
     } 
   
-    const amountToPay = figurePrice(pickUpRoute, dropOffRoute);
-  
-    return `Your pick-up route is ${pickUpRoute}, your drop-off route is ${dropOffRoute} and your delivery method is ${deliveryMethod}. So you're to pay ${amountToPay}`;
+    const amountToPay = figurePrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
+    
+    return { pickUp: pickUpRoute.landMark, dropOff: dropOffRoute.landMark, deliveryMethod, amountToPay};
   };
   
-  export default deliveryPriceCalculator;
-
-  //console.log(deliveryPriceCalculator("32 tayo bello avenue agric, ikorodu", "15 ibabdan street, oyingbo", "express"));
+  export default deliveryPriceCalculator; 

@@ -8,9 +8,11 @@ const orderDetail = new mongoose.Schema({
   description: Number,
   refNumber: String,
   recipientName: String,
+  monetary: String,
   routeStatus: String, 
   createdAt: String,
   updatedAt: String,
+  recipientPhoneNo: String
 });
 
 export default mongoose.model("Order", orderDetail);

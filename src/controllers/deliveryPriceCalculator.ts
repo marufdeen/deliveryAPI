@@ -18,11 +18,13 @@ const routes : any = {
   
   function deliveryPriceCalculator (pickUpAddress : String, dropOffAddress : String, deliveryMethod : String)  {
   
-    function figureRoute(address: String) {
-      let routeValue : any ;
-      let landMark : any;
-      Object.keys(routes).reduce((acc: any, key) => {
-        const add = address.split(" ").map((a) => a.toUpperCase());
+    function getRoute(address: String) {
+       let routeValue : any ;
+       let landMark : any; 
+       const regEx = /[/,/.]/g;
+       Object.keys(routes).reduce((acc: any, key) => { 
+        const filteredAddress = address.replace(regEx, '');
+        const add = filteredAddress.split(" ").map((a) => a.toUpperCase()); 
         add.map((ad) => {
           if (routes[key].includes(ad) ) {
             if (routeValue === undefined) routeValue = key.toUpperCase();
@@ -34,18 +36,20 @@ const routes : any = {
       return {routeValue, landMark};
     }
   
-    let pickUpRoute = figureRoute(pickUpAddress);
-    let dropOffRoute = figureRoute(dropOffAddress);
+    let pickUpRoute = getRoute(pickUpAddress);
+    let dropOffRoute = getRoute(dropOffAddress);
   
-    function figurePrice(pickup: String, dropoff: String) {
+    function getPrice(pickup: String, dropoff: String) {
+
       const price  = priceTag.find(
         (data : any) => (data.pickUp === pickup || data.dropOff === pickup) && (data.dropOff === dropoff || data.pickUp === dropoff)
       ).price;
+
       if (deliveryMethod === 'regular') return price;
       if (deliveryMethod === 'express') return price*2;
     } 
-  
-    const amountToPay = figurePrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
+/* if (pickUpRoute === undefined  ||  dropOffRoute === undefined) return 'Out of coverage'; */
+    const amountToPay = getPrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
     
     return { pickUp: pickUpRoute.landMark, dropOff: dropOffRoute.landMark, deliveryMethod, amountToPay};
   };

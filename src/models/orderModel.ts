@@ -8,8 +8,10 @@ const orderDetail = new mongoose.Schema({
   description: Number,
   refNumber: String,
   recipientName: String,
+  recipientPhoneNumber: String,
   monetary: String,
-  routeStatus: String, 
+  routeStatus: String,
+  status: String,
   createdAt: String,
   updatedAt: String,
   recipientPhoneNo: String

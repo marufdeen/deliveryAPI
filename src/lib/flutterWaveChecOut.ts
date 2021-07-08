@@ -20,10 +20,10 @@ async function createCheckOutLink( refNumber: string, amount: number,  phoneNumb
 
     const { data } = await axios.post(flutterWaveEndpoint, payload, {
       headers: {
-        Authorization: "Bearer FLWSECK_TEST-99e3537c99ff82bf8cb01b8912858690-X",
+        Authorization: "Bearer FLWSECK_TEST-a08860de9c1a4aa621cf5fabc4b369ce-X",
       },
     }); 
-
+//FLWSECK_TEST-99e3537c99ff82bf8cb01b8912858690-X
     return data?.data?.link;
   } catch (error) {
     console.log(error);

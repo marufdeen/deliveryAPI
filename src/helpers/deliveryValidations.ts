@@ -1,4 +1,4 @@
-import {validName, validNumber, validPhoneNumber}  from './regEx';
+import { validNumber, validPhoneNumber}  from './regEx';
 
     /**
      * @description validate delivery details
@@ -11,11 +11,11 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
     const { fullName, recipientName, pickUpPhoneNumber,  dropOffPhoneNumber, description, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = body
     const deliveryErrors: any = {}; 
 
-    if (!fullName || fullName.length < 3 || !validName.test(fullName)) {
+    if (!fullName || fullName.length < 3 ) {
       deliveryErrors.message =  'Full NAme is required, with at least three alphabetical characters';
     }
 
-    if (!recipientName || recipientName.length < 3 || !validName.test(recipientName)) {
+    if (!recipientName || recipientName.length < 3 ) {
       deliveryErrors.message =  'Recepient Name is required, with at least three alphabetical characters';
     }
 
@@ -61,8 +61,7 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
      */
 
     export function validateDeliveryPrice(body: any) {
-      const { pickUpAddress, dropOffAddress, deliveryMethod } = body
-      console.log(body)
+      const { pickUpAddress, dropOffAddress, deliveryMethod } = body;
       const deliveryPriceErrors: any = {};
 
       if(!pickUpAddress || !dropOffAddress ) {

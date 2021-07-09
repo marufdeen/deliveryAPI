@@ -1,12 +1,13 @@
-
 import {validName, validNumber, validPhoneNumber}  from './regEx';
+
     /**
      * @description validate delivery details
      * @function createRideValidations
      * @param {object} body
      * @returns {Array} deliveryErrors
      */
-    function validateDelivery(body: any) { 
+
+    export function validateDelivery(body: any) { 
     const { fullName, recipientName, pickUpPhoneNumber,  dropOffPhoneNumber, description, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = body
     const deliveryErrors: any = {}; 
 
@@ -33,6 +34,14 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
     if(!description) {
       deliveryErrors.message =  'Please describe your item to help us handle it with care.';
     }
+    
+    if(!pickUpAddress || !dropOffAddress ) {
+      deliveryErrors.message = 'Both pick-up address and drop-off address are required';
+    }
+
+    if(!deliveryMethod) {
+      deliveryErrors.message = 'Please, specify your delivery method';
+    }
 
     if(!routeStatus) {
       deliveryErrors.message = 'Are you at the drop-off point or pick-up point';
@@ -44,5 +53,30 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
 
     return deliveryErrors;
     }
- export default  validateDelivery;
+    /**
+     * @description validate delivery details
+     * @function createRideValidations
+     * @param {object} body
+     * @returns {Array} deliveryErrors
+     */
+
+    export function validateDeliveryPrice(body: any) {
+      const { pickUpAddress, dropOffAddress, deliveryMethod } = body
+      const deliveryPriceErrors: any = {};
+
+      if(!pickUpAddress || !dropOffAddress ) {
+        deliveryPriceErrors.message = 'Both pick-up address and drop-off address are required';
+      }
+
+      if(!deliveryMethod) {
+        deliveryPriceErrors.message = 'Please, specify your delivery method';
+      }
+
+      if(deliveryMethod !== 'express' || deliveryMethod !== 'regular' ) {
+        deliveryPriceErrors.message = 'Delivery method can only be either express or regular';
+      }
+
+      return deliveryPriceErrors;
+
+    }
  

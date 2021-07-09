@@ -16,7 +16,7 @@ class delivery {
   static async calculatePrice(req: Request, res: Response): Promise<any> {
     console.log(req.body);
     const { pickUpAddress, dropOffAddress, deliveryMethod } = req.body;
-    const deliveryOutcome: any = await deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
+    const deliveryOutcome: any =  deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
     if (deliveryOutcome) {
       return res.status(200).json({
         deliveryOutcome

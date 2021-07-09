@@ -38,10 +38,9 @@ class delivery {
    */
   static async saveDeliveryDetails(req: Request, res: Response): Promise<any> {
     console.log(req.body);
-    const { fullName, pickUpPhoneNumber,  dropOffPhoneNumber, description, recipientName, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = req.body;
+    const { fullName, pickUpPhoneNumber, dropOffPhoneNumber, description, recipientName, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = req.body;
 
     const refNumber = crypto.randomBytes(6).toString("hex");
-
     const deliveryOutcome = await deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
 
     // @ts-ignore
@@ -158,8 +157,7 @@ class delivery {
   static async deliveryCompleted(req: Request, res: Response){ 
     const refNumber = req.params.refNumber; 
     const deliveryFound = await deliveryModel.findOne({refNumber})
-
-    //console.log(deliveryFound);
+ 
     if (deliveryFound) {
       await deliveryModel.updateOne({refNumber}, {deliveryStatus: "completed"});
       return res.send({

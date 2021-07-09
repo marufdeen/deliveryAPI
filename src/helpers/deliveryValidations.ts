@@ -40,7 +40,7 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
     }
 
     if(!deliveryMethod) {
-      deliveryErrors.message = 'Please, specify your delivery method';
+      deliveryErrors.message = 'Delivery method is required and can only be either express or regular';
     }
 
     if(!routeStatus) {
@@ -62,21 +62,17 @@ import {validName, validNumber, validPhoneNumber}  from './regEx';
 
     export function validateDeliveryPrice(body: any) {
       const { pickUpAddress, dropOffAddress, deliveryMethod } = body
+      console.log(body)
       const deliveryPriceErrors: any = {};
 
       if(!pickUpAddress || !dropOffAddress ) {
         deliveryPriceErrors.message = 'Both pick-up address and drop-off address are required';
-      }
+      } 
 
       if(!deliveryMethod) {
-        deliveryPriceErrors.message = 'Please, specify your delivery method';
+        deliveryPriceErrors.message = 'Delivery method is required and can only be either express or regular';
       }
-
-      if(deliveryMethod !== 'express' || deliveryMethod !== 'regular' ) {
-        deliveryPriceErrors.message = 'Delivery method can only be either express or regular';
-      }
-
+      
       return deliveryPriceErrors;
-
     }
  

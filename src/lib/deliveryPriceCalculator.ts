@@ -40,7 +40,6 @@ const routes : any = {
     let dropOffRoute = getRoute(dropOffAddress);
   
     function getPrice(pickUp: String, dropOff: String) {
-
       const price  = priceTag.find(
         (data : any) => (data.pickUp === pickUp || data.dropOff === pickUp) && (data.dropOff === dropOff || data.pickUp === dropOff)
       ).price;
@@ -48,7 +47,7 @@ const routes : any = {
       if (deliveryMethod === 'regular') return price;
       if (deliveryMethod === 'express') return price*2;
     } 
-/* if (pickUpRoute === undefined  ||  dropOffRoute === undefined) return 'Out of coverage'; */
+// if (pickUpRoute == undefined  ||  dropOffRoute == undefined) return 'Out of coverage';
     const amountToPay = getPrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
     
     return { pickUp: pickUpRoute.landMark, dropOff: dropOffRoute.landMark, deliveryMethod, amountToPay};

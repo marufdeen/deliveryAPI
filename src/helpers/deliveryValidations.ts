@@ -8,7 +8,7 @@ import { validNumber, validPhoneNumber}  from './regEx';
      */
 
     export function validateDelivery(body: any) { 
-    const { fullName, recipientName, pickUpPhoneNumber,  dropOffPhoneNumber, description, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = body
+    const { fullName, recipientName, pickUpPhoneNumber,  dropOffPhoneNumber, description, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod } = body
     const deliveryErrors: any = {}; 
 
     if (!fullName || fullName.length < 3 ) {
@@ -21,11 +21,7 @@ import { validNumber, validPhoneNumber}  from './regEx';
 
     if (!pickUpPhoneNumber || !validPhoneNumber.test(pickUpPhoneNumber)) {
       deliveryErrors.message =  'Pick-up contact is required, with a valid phone number format';
-    }
-
-    if (!recipientPhoneNumber || !validPhoneNumber.test(recipientPhoneNumber)) {
-      deliveryErrors.message =  'Recepient contact is required, with a valid phone number format';
-    }
+    } 
 
     if (!dropOffPhoneNumber || !validPhoneNumber.test(dropOffPhoneNumber)) {
       deliveryErrors.message =  'Drop-off contact is required, with a valid phone number format';

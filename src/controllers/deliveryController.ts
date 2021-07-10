@@ -37,17 +37,16 @@ class delivery {
    * @returns {object} Json data
    */
   static async saveDeliveryDetails(req: Request, res: Response): Promise<any> {
-    console.log(req.body);
-    const { fullName, pickUpPhoneNumber, dropOffPhoneNumber, description, recipientName, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod, recipientPhoneNumber } = req.body;
+    
+    const { fullName, pickUpPhoneNumber, dropOffPhoneNumber, description, recipientName, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod } = req.body;
 
     const refNumber = crypto.randomBytes(6).toString("hex");
     const deliveryOutcome = await deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
 
     // @ts-ignore
-    const orderDetails = await deliveryModel.create({ fullName,  amount: deliveryOutcome.amountToPay, pickUpPhoneNumber, dropOffPhoneNumber ,refNumber, description, recipientName, routeStatus, monetary, status: 'pending', recipientPhoneNumber
-    });
-
-    const checkoutLink = await createCheckOutLink( refNumber, deliveryOutcome.amountToPay, recipientPhoneNumber, recipientName);  
+    const orderDetails = await deliveryModel.create({ fullName,  amount: deliveryOutcome.amountToPay, pickUpPhoneNumber, dropOffPhoneNumber ,refNumber, description, recipientName, routeStatus, monetary, status: 'pending'});
+    orderDetails
+    const checkoutLink = await createCheckOutLink(refNumber, deliveryOutcome.amountToPay, dropOffPhoneNumber, recipientName);  
     if (orderDetails) {
       return res.status(200).json(Object.assign({orderDetails, checkoutLink}));
     } else {

@@ -3,12 +3,11 @@ import  mongoose  from  'mongoose';
 const deliveryDetail = new mongoose.Schema({
   fullName: String,
   amount: Number,
-  pickUpPhoneNumber: Number,
-  dropOffPhoneNumber: Number,
+  pickUpPhoneNumber: String,
+  dropOffPhoneNumber: String,
   description: String,
   refNumber: String,
   recipientName: String,
-  recipientPhoneNumber: String,
   monetary: String,
   routeStatus: String,
   deliveryStatus: {

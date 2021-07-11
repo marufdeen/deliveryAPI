@@ -14,18 +14,18 @@ class delivery {
    * @returns {object} Json data
    */
   static async calculatePrice(req: Request, res: Response): Promise<any> {
-    console.log(req.body);
     const { pickUpAddress, dropOffAddress, deliveryMethod } = req.body;
     const deliveryOutcome: any =  deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
-    if (deliveryOutcome) {
+ 
+    if (deliveryOutcome.hasOwnProperty('error')) {
+      return res.status(400).json({
+        error:  deliveryOutcome.error,
+      });
+    }
       return res.status(200).json({
         deliveryOutcome
       });
-    } else {
-      return res.status(400).json({
-        error: "Something went wrong",
-      });
-    }
+    
   }
 
   /**
@@ -37,21 +37,22 @@ class delivery {
    * @returns {object} Json data
    */
   static async saveDeliveryDetails(req: Request, res: Response): Promise<any> {
-    
+
     const { fullName, pickUpPhoneNumber, dropOffPhoneNumber, description, recipientName, routeStatus, monetary, pickUpAddress, dropOffAddress, deliveryMethod } = req.body;
 
     const refNumber = crypto.randomBytes(6).toString("hex");
     const deliveryOutcome = await deliveryPriceCalculator( pickUpAddress, dropOffAddress, deliveryMethod );
-
-    // @ts-ignore
-    const orderDetails = await deliveryModel.create({ fullName,  amount: deliveryOutcome.amountToPay, pickUpPhoneNumber, dropOffPhoneNumber ,refNumber, description, recipientName, routeStatus, monetary, status: 'pending'});
-    orderDetails
-    const checkoutLink = await createCheckOutLink(refNumber, deliveryOutcome.amountToPay, dropOffPhoneNumber, recipientName);  
-    if (orderDetails) {
-      return res.status(200).json(Object.assign({orderDetails, checkoutLink}));
+   
+    if (!deliveryOutcome.hasOwnProperty('error')) {
+    const orderDetails = await deliveryModel.create({ fullName,  amount:  deliveryOutcome.amountToPay, pickUpPhoneNumber, dropOffPhoneNumber ,refNumber, description, recipientName, routeStatus, monetary});
+   const checkoutLink = await createCheckOutLink(refNumber, deliveryOutcome.amountToPay, dropOffPhoneNumber, recipientName);  
+      return res.status(200).json(Object.assign({
+        orderDetails, 
+       checkoutLink : checkoutLink? checkoutLink: 'Unable to genrate a checkout link'
+      }));
     } else {
         return res.status(400).json({
-        error: "Something went wrong",
+        error: deliveryOutcome.error,
       });
     }
   }
@@ -67,13 +68,13 @@ class delivery {
    */
   static async getAllDeliveries(req: Request, res: Response) {
     const {status} = req.query;
-    let allOrders;
-    if (status) allOrders = await deliveryModel.find({status});
+    let allDeliveries;
+    if (status) allDeliveries = await deliveryModel.find({status});
      else{
-        allOrders = await deliveryModel.find()
+        allDeliveries = await deliveryModel.find()
      }
-    if (allOrders.length > 0) {
-      return res.send(allOrders);
+    if (allDeliveries.length > 0) {
+      return res.send(allDeliveries);
     }
     return res.send('No delivery order match your search!... 😊');
   }

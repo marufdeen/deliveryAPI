@@ -36,21 +36,36 @@ const routes : any = {
       return {routeValue, landMark};
     }
   
-    let pickUpRoute = getRoute(pickUpAddress);
-    let dropOffRoute = getRoute(dropOffAddress);
-  
     function getPrice(pickUp: String, dropOff: String) {
-      const price  = priceTag.find(
+      const deliveryCharge  = priceTag.find(
         (data : any) => (data.pickUp === pickUp || data.dropOff === pickUp) && (data.dropOff === dropOff || data.pickUp === dropOff)
       ).price;
 
-      if (deliveryMethod === 'regular') return price;
-      if (deliveryMethod === 'express') return price*2;
+      if (deliveryMethod == 'regular') return deliveryCharge;
+      if (deliveryMethod == 'express') return deliveryCharge*2;
     } 
-// if (pickUpRoute == undefined  ||  dropOffRoute == undefined) return 'Out of coverage';
-    const amountToPay = getPrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
-    
-    return { pickUp: pickUpRoute.landMark, dropOff: dropOffRoute.landMark, deliveryMethod, amountToPay};
-  };
   
+
+    const pickUpRoute = getRoute(pickUpAddress);
+    const dropOffRoute = getRoute(dropOffAddress); 
+
+    if(pickUpRoute.landMark == undefined) {
+      return  {
+        error: `Sorry, your pick up address doesn't contain any of our land-marks`
+      }
+    }
+
+    else if(dropOffRoute.landMark == undefined) {
+      return {
+        error: `Sorry, your drop off address doesn't contain any of our land-marks`
+      }
+    }
+    else {
+       const amountToPay = getPrice(pickUpRoute.routeValue, dropOffRoute.routeValue);
+       
+       return { pickUp: pickUpRoute.landMark, dropOff: dropOffRoute.landMark, deliveryMethod,  amountToPay };
+    }
+
+  };
+
   export default deliveryPriceCalculator; 

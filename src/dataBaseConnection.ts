@@ -1,6 +1,6 @@
 import  mongoose from 'mongoose';
-//Database Connection
-mongoose.connect('mongodb://localhost/deliveryAPI', {
+//Database Connection  mongodb://localhost/deliveryAPI
+mongoose.connect('mongodb+srv://root:hacker1993@cluster0.a44xf.mongodb.net/deliveryAPI?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

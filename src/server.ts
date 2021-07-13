@@ -6,6 +6,6 @@ import app from './app';
 import './dataBaseConnection'
 // require the app url and port configuration
 import config  from './config/serverConfig' ; 
-app.listen(config.port, () => console.log(`${config.appName} server started on ${config.enviroment}: ${config.url}:${config.port}`));
+app.listen(process.env.PORT || config.port, () => console.log(`${config.appName} server started on ${config.enviroment}: ${config.url}:${config.port}`));
 
 

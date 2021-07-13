@@ -1,6 +1,8 @@
 import  mongoose from 'mongoose';
+import env from 'dotenv';
+env.config();
 //Database Connection  mongodb://localhost/deliveryAPI
-mongoose.connect('mongodb+srv://root:hacker1993@cluster0.a44xf.mongodb.net/deliveryAPI?retryWrites=true&w=majority', {
+mongoose.connect( 'mongodb+srv://root:hacker1993@cluster0.a44xf.mongodb.net/deliveryAPI?retryWrites=true&w=majority' , {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

@@ -108,11 +108,8 @@ class delivery {
    */
   static async handleWebhook(req: Request, res: Response){
     //console.log(req.body);
-
     const {status, txRef} = req.body;/* 
-
     const orderDetails = await deliveryModel.findOne({refNumber: txRef})
-
     console.log(orderDetails); */
 
     if(status === "successful"){

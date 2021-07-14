@@ -10,7 +10,6 @@
   "author": "marufdeen <marufajagunna@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "server": "node dist/server.js",
     "start": "node .",
     "build": "babel --delete-dir-on-start --out-dir dist --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored src --extensions \".ts,.tsx,.js\" ",
     "test": "echo \"Error: no test specified\" && exit 1"

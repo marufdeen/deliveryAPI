@@ -19,8 +19,6 @@ const deliveryDetail = new mongoose.Schema({
     type: String,
     enum: ["pending", "success"],
     default: "pending"
-  },
-  createdAt: String,
-  updatedAt: String, 
-});
+  }
+}, { timestamps: true });
 export default mongoose.model("Delivery", deliveryDetail);

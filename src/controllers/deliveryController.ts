@@ -69,7 +69,7 @@ class delivery {
   static async getAllDeliveries(req: Request, res: Response) {
     const {status} = req.query;
     let allDeliveries;
-    if (status) allDeliveries = await deliveryModel.find({status});
+    if (status) allDeliveries = await deliveryModel.find({status}).limit(2);
      else{
         allDeliveries = await deliveryModel.find()
      }

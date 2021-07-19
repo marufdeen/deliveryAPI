@@ -71,7 +71,7 @@ class delivery {
     let allDeliveries;
     if (status) allDeliveries = await deliveryModel.find({status});
      else{
-        allDeliveries = await deliveryModel.find().limit(2)
+        allDeliveries = await deliveryModel.find()
      }
     if (allDeliveries.length > 0) {
       return res.send(allDeliveries);

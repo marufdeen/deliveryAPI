@@ -69,9 +69,9 @@ class delivery {
   static async getAllDeliveries(req: Request, res: Response) {
     const {status} = req.query;
     let allDeliveries;
-    if (status) allDeliveries = await deliveryModel.find({status}).limit(2);
+    if (status) allDeliveries = await deliveryModel.find({status});
      else{
-        allDeliveries = await deliveryModel.find()
+        allDeliveries = await deliveryModel.find().limit(2)
      }
     if (allDeliveries.length > 0) {
       return res.send(allDeliveries);
